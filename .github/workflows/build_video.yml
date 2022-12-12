@@ -38,7 +38,7 @@ jobs:
       run: sudo mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout
 
     - name: Create Video
-      run: tools/create-video.py ${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}
+      run: paper/tools/create-video.py ${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}
 
     - name: Create Release
       id: create_release
@@ -58,6 +58,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./${{ github.repository }}/refs/heads/video.mp4
+        asset_path: ./${{ github.repository }}/refs/heads/paper/video.mp4
         asset_name: video.mp4
         asset_content_type: video/mp4
