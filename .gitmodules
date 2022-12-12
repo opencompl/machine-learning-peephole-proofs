@@ -1,3 +1,6 @@
 [submodule "mathlib"]
 	path = mathlib
 	url = https://github.com/leanprover-community/mathlib.git
+[submodule "code/raw_data/gcc-mirror"]
+	path = code/raw_data/gcc-mirror
+	url = https://github.com/gcc-mirror/gcc.git
