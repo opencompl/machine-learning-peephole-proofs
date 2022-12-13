@@ -4,3 +4,6 @@
 [submodule "code/raw_data/gcc-mirror"]
 	path = code/raw_data/gcc-mirror
 	url = https://github.com/gcc-mirror/gcc.git
+[submodule "code/raw_data/llvm-project"]
+	path = code/raw_data/llvm-project
+	url = git@github.com:opencompl/llvm-project.git
