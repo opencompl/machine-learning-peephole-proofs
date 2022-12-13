@@ -7,3 +7,6 @@
 [submodule "code/raw_data/llvm-project"]
 	path = code/raw_data/llvm-project
 	url = git@github.com:opencompl/llvm-project.git
+[submodule "code/raw_data/mlir-fuzz"]
+	path = code/raw_data/mlir-fuzz
+	url = git@github.com:opencompl/mlir-fuzz.git
