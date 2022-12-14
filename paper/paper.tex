@@ -202,7 +202,7 @@
 
 % (http://www.easterbrook.ca/steve/2010/01/how-to-write-a-scientific-abstract-in-six-easy-steps/)
 
-\lipsum[1]
+    XXX
 \end{abstract}
 
 % Only add ACM notes and keywords in camera ready version
@@ -244,6 +244,21 @@
 %% environment and commands, and keywords command.
 \maketitle
 
+
+\section{Dataset Extraction}
+
+\subsection{InstCombine}
+\subsubsection{Problems extracting PHI nodes}
+When we try to extract PHI nodes, we are forced to extract out basic blocks which
+transfers control into the PHI node. However, simply extracting these basic blocks
+is not enough, since that will give us a disconnected CFG. For every basic block
+we extract, we must also extract the terminator, and all the computations that led
+upto the terminator. This is thorny, since we now get a complicated program with a
+CFG, and not just a chain of values. 
+
+
+This can be implemented by keeping a simulatenous worklist of values, instructions,
+and basic blocks to be extracted. We currently choose to ignore PHI nodes entirely.
 \section{Introduction}
 
 Of this super cool article \ldots
