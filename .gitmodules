@@ -10,3 +10,6 @@
 [submodule "code/raw_data/mlir-fuzz"]
 	path = code/raw_data/mlir-fuzz
 	url = git@github.com:opencompl/mlir-fuzz.git
+[submodule "code/raw_data/alive2"]
+	path = code/raw_data/alive2
+	url = https://github.com/AliveToolkit/alive2.git
