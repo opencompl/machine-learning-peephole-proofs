@@ -201,8 +201,18 @@
 %  6. As a single sentence, what’s the key impact of your research?
 
 % (http://www.easterbrook.ca/steve/2010/01/how-to-write-a-scientific-abstract-in-six-easy-steps/)
-
-    XXX
+Compilers ought to be synthesized from program semantics; anything more is
+a waste of human ingenuity. Unfortunately, a large fraction of the source code
+in a compiler consists of specifying and implementing transformations, that in an
+ideal world would be automatically synthesized. Superoptimisation has had success
+in synthesizing some of these optimisations. We propose to boost the power of traditional
+SMT-based superoptimisation by automatically discovering \emph{proofs of correctness} 
+in a proof assistant, augmented by \emph{machine learning}. Our key insight is that
+the space of proofs of peephole optimisations is \emph{well structured}, which
+allows us to bootstrap a sufficiently large training dataset, from which
+fine-tuned transformer-based models extrapolate well. Our method allows
+us to entirely replace the hand-written peephole optimiser \texttt{InstCombine}
+in LLVM, and replace it with a peephole optimiser that is entirely synthesized.
 \end{abstract}
 
 % Only add ACM notes and keywords in camera ready version
@@ -259,40 +269,33 @@ CFG, and not just a chain of values.
 
 This can be implemented by keeping a simulatenous worklist of values, instructions,
 and basic blocks to be extracted. We currently choose to ignore PHI nodes entirely.
-\section{Introduction}
 
-Of this super cool article \ldots
-\grosser{A simple comment refering to a particular location}
+\newcommand{\InstcombineUnitTestRewritesAll}{7592}
+\newcommand{\InstcombineUnitTestRewritesError}{359}
+\newcommand{\InstcombineUnitTestRewritesSuccess}{6529}
+\newcommand{\InstcombineUnitTestRewritesTimeout}{704}
+\newcommand{\dream}[1]{\colorbox{blue!30}{#1}}
 
-If there is \authorTwo[some text we want to refer to specifically]{this looks
-particularly interesting} we can refer to this text from within our comments.
+\subsubsection{Checking Correctness Of Rewrites} As a sanity check, we pass the
+rewrites we extract through \texttt{Alive2}, an SMT-based equivalence checker
+for LLVM, with a timeout of 30 seconds. We find that of the
+\InstcombineUnitTestRewritesAll we extract, \InstcombineUnitTestRewritesSuccess
+were successfully proven by alive, \InstcombineUnitTestRewritesError failed to
+be proven by alive since Alive did not model the semantics of certain
+instructions, and \InstcombineUnitTestRewritesTimeout resulted in a timeout, as
+Alive2 is based on querying an SMT solver, and thus some queries expensive
+bit-blasting which time out. This shows that the dataset we extract is correct
+(since alive verifies a large fraction of them, and those which it is unable to verify
+is not because of an incorrect transformation, but rather because of its inability to 
+model certain operations), and challenging (since Alive was unable to prove thr
+correctness of 14\% of the dataset).
 
-And here we only mark \authorTwo[text]{} that is \authorTwo[interesting]{}, but do not
-actually comment.
-
-Now we have a sequence of comments,
-\authorThree{Comment 3}
-\authorFour{Comment 4}
-\authorFive{Comment 5}
-\authorSix{Comment 6}
-which should not introduce overlong white space sequences.
-
-Sometimes it is also important to \emph{emphasize} text to understand if it is
-underlined or printed in italic.
-
-We sometimes use macros to state that a tool as the name \toolname{} in a
-flexible way.
-
-\lipsum[1-3]
-
-\begin{figure}
-% Link to figure
-%
-% https://docs.google.com/drawings/d/1juKp43D3rLC-luBQPwQZ_wCnDK2S_6C1k6USV0wKE0g/edit?usp=sharing
-\includegraphics[width=\columnwidth]{overview.pdf}
-\caption{Our key idea visualized}
-\grosser{Replace this figure with your own drawing.}
-\end{figure}
+\subsubsection{Fine Tuning For Custom Datasets}
+Since we provide our scripts and changes to LLVM as part of our open source
+code, this allows fine-tuning of the training and testing data set to a custom choice
+of codebase. All one needs to do is to replace the use of the system C++ compiler (\texttt{clang})
+with our custom build of \texttt{clang}. As a demonstration, \dream{we also produce rewrites
+by running on Redis, and we get XXXX rewrites.} 
 
 \vspace{.5em}
 \noindent
