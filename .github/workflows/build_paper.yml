@@ -33,12 +33,14 @@ jobs:
     - name: LaTeX compilation - Draft (with comments)
       uses: xu-cheng/latex-action@master
       with:
-        root_file: paper/draft.tex
+        working_directory: paper
+        root_file: draft.tex
 
     - name: LaTeX compilation - Paper
       uses: xu-cheng/latex-action@master
       with:
-        root_file: paper/paper.tex
+        working_directory: paper
+        root_file: paper.tex
 
     - name: Release
       if: ${{ github.event_name == 'push' }}
